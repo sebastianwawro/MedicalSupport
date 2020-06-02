@@ -1,0 +1,21 @@
+﻿@model MedicalSupport.ViewModels.SickWardenRelations.SickWardenDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Delete</h1>
+
+<h3>Do you want to delete your relation with @Model.FullName ?</h3>
+<div>
+    <hr />
+    <dl class="row">
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

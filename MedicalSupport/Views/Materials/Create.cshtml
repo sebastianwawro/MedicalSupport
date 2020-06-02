@@ -1,0 +1,97 @@
+﻿@model MedicalSupport.ViewModels.Materials.MaterialCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Material</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OwnerId" class="control-label"></label>
+                <select asp-for="OwnerId" class="form-control selectpicker" asp-items="ViewBag.UserList" data-live-search="true"></select>
+                <span asp-validation-for="OwnerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastUsedDate" class="control-label"></label>
+                <input asp-for="LastUsedDate" type="datetime-local" class="form-control dateTimePicker" />
+                <span asp-validation-for="LastUsedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastPlaceLeft" class="control-label"></label>
+                <input asp-for="LastPlaceLeft" class="form-control" />
+                <span asp-validation-for="LastPlaceLeft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsMedicine" class="control-label"></label>
+                <input asp-for="IsMedicine" class="form-control" />
+                <span asp-validation-for="IsMedicine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedicineDose" class="control-label"></label>
+                <input asp-for="MedicineDose" class="form-control" />
+                <span asp-validation-for="MedicineDose" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label"></label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(function () {
+            $('.dateTimePicker').datetimepicker({
+                // Formats
+                // follow MomentJS docs: https://momentjs.com/docs/#/displaying/format/
+                format: 'YYYY-MM-DDThh:mm',
+                // Your Icons
+                // as Bootstrap 4 is not using Glyphicons anymore
+                icons: {
+                    time: 'fa fa-clock-o',
+                    date: 'fa fa-calendar',
+                    up: 'fa fa-chevron-up',
+                    down: 'fa fa-chevron-down',
+                    previous: 'fa fa-chevron-left',
+                    next: 'fa fa-chevron-right',
+                    today: 'fa fa-check',
+                    clear: 'fa fa-trash',
+                    close: 'fa fa-times'
+                }
+            });
+        });
+    </script>
+}

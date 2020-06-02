@@ -1,0 +1,78 @@
+﻿@model MedicalSupport.ViewModels.SickWardenRelations.SickWardenIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<hr>
+
+@if (Model.WardenList.Count > 0) {
+    <h4>List of people you taking care of you</h4>
+    <table class="table verySpecialTable">
+        <thead>
+            <tr>
+                <th>Full name</th>
+                <th>Is accepted</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.WardenList) {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsAccepted)</td>
+                <td>
+                    @if (!item.IsAccepted && item.CanAccept) {
+                        <a asp-action="Accept" asp-route-id="@item.Id">Accept</a>
+                        <span> |</span>
+                    }
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+}
+else {
+    <p> You have no people who take care of you! Add one!</p>
+}
+
+<hr>
+
+@if (Model.SickList.Count > 0) {
+    <h4>List of people you take care of</h4>
+    <table class="table verySpecialTable">
+        <thead>
+            <tr>
+                <th>Full name</th>
+                <th>Is accepted</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model.SickList) {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsAccepted)</td>
+                <td>
+                    @if (!item.IsAccepted && item.CanAccept) {
+                        <a asp-action="Accept" asp-route-id="@item.Id">Accept</a>
+                        <span> |</span>
+                    }
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+}
+else {
+    <p> You have no people you take care of! Add one!</p>
+}
+
