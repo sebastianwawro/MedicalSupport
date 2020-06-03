@@ -29,6 +29,19 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Comment)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RecordingRawBase64)
+        </dt>
+        <dd class = "col-sm-10">
+            @if(Model.RecordingRawBase64 != null) {
+                <audio controls="controls" autobuffer="autobuffer" autoplay="autoplay">
+                    <source src="@Model.RecordingRawBase64" />
+                </audio>
+            }
+            else {
+                <span>No data!</span>
+            }
+        </dd>
     </dl>
 </div>
 <div>

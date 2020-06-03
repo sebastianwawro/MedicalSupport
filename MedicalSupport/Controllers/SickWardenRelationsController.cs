@@ -206,6 +206,8 @@ namespace MedicalSupport.Controllers
             {
                 return NotFound();
             }
+            await _context.Entry(sickWarden).Reference(p => p.Sick).LoadAsync();
+            await _context.Entry(sickWarden).Reference(p => p.Warden).LoadAsync();
 
             if (sickWarden.Sick.Equals(appUser) && sickWarden.IsProposedByWarden.GetValueOrDefault())
             {

@@ -36,12 +36,25 @@ namespace MedicalSupport.Controllers
             List<VoiceNoteIndexViewModel> voiceNoteIndexViewModels = new List<VoiceNoteIndexViewModel>();
             foreach (VoiceNote voiceNote in voiceNotes)
             {
+                String content = null;
+                String fileName = voiceNote.FileName;
+                if (fileName != null)
+                {
+                    String type = GetTagType(fileName);
+                    String base64 = await GetRecordingBase64(fileName);
+                    if (base64 != null)
+                    {
+                        content = "data:" + type + ";base64," + base64;
+                    }
+                }
+
                 voiceNoteIndexViewModels.Add(new VoiceNoteIndexViewModel
                 {
                     Id = voiceNote.Id,
                     Name = voiceNote.Name,
                     Comment = voiceNote.Comment,
-                    Owner = voiceNote.Owner.FullName
+                    Owner = voiceNote.Owner.FullName,
+                    RecordingRawBase64 = content
                 });
             }
 
@@ -103,12 +116,25 @@ namespace MedicalSupport.Controllers
                 return NotFound();
             }
 
+            String content = null;
+            String fileName = voiceNote.FileName;
+            if (fileName != null)
+            {
+                String type = GetTagType(fileName);
+                String base64 = await GetRecordingBase64(fileName);
+                if (base64 != null)
+                {
+                    content = "data:" + type + ";base64," + base64;
+                }
+            }
+
             VoiceNoteIndexViewModel voiceNoteIndexViewModel = new VoiceNoteIndexViewModel
             {
                 Id = voiceNote.Id,
                 Name = voiceNote.Name,
                 Comment = voiceNote.Comment,
-                Owner = voiceNote.Owner.FullName
+                Owner = voiceNote.Owner.FullName,
+                RecordingRawBase64 = content
             };
 
             return View(voiceNoteIndexViewModel);
@@ -279,11 +305,45 @@ namespace MedicalSupport.Controllers
             };
         }
 
+        private Dictionary<string, string> GetTagTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                {".mp4", "audio/mp4"},
+                {".mp3", "audio/mp3"},
+                {".wav", "audio/wav"},
+                {".wma", "audio/wma"}
+            };
+        }
+
         private string GetContentType(string path)
         {
             var types = GetMimeTypes();
             var ext = Path.GetExtension(path).ToLowerInvariant();
             return types[ext];
+        }
+
+        private string GetTagType(string path)
+        {
+            var types = GetTagTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types[ext];
+        }
+
+        public async Task<String> GetRecordingBase64(String fileName)
+        {
+            var path = Path.Combine(
+                           Directory.GetCurrentDirectory(),
+                           "wwwroot\\UserRecordings", fileName);
+            if (!System.IO.File.Exists(path))
+            {
+                return null;
+            }
+
+            byte[] AsBytes = await System.IO.File.ReadAllBytesAsync(path);
+            String recodingBase64 = Convert.ToBase64String(AsBytes);
+
+            return recodingBase64;
         }
 
         public async Task<IActionResult> Download(long? id)
