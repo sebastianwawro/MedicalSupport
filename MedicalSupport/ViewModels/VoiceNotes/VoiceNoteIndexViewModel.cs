@@ -19,5 +19,8 @@ namespace MedicalSupport.ViewModels.VoiceNotes
 
         [DisplayName("Comment")]
         public String Comment { get; set; }
+
+        [DisplayName("Recording")]
+        public String RecordingRawBase64 { get; set; }
     }
 }

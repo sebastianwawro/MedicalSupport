@@ -22,6 +22,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Comment)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecordingRawBase64)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,6 +39,16 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @if(item.RecordingRawBase64 != null) {
+                    <audio controls="controls" autobuffer="autobuffer">
+                        <source src="@item.RecordingRawBase64" />
+                    </audio>
+                }
+                else {
+                    <span>No data!</span>
+                }
             </td>
             <td>
                 <a asp-action="Download" asp-route-id="@item.Id">Download</a> |
